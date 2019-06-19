@@ -1,0 +1,10 @@
+br\edu\ifrs\restinga\dev1\victor\prova1\modelo\dao\IPagamentoDAO.class
+br\edu\ifrs\restinga\dev1\victor\prova1\modelo\entidade\Pagamento.class
+br\edu\ifrs\restinga\dev1\victor\prova1\modelo\dao\IVagaDAO.class
+br\edu\ifrs\restinga\dev1\victor\prova1\modelo\entidade\Locatario.class
+br\edu\ifrs\restinga\dev1\victor\prova1\erro\RequisicaoInvalidaException.class
+br\edu\ifrs\restinga\dev1\victor\prova1\modelo\dao\ILocatarioDAO.class
+br\edu\ifrs\restinga\dev1\victor\prova1\modelo\entidade\Vaga.class
+br\edu\ifrs\restinga\dev1\victor\prova1\controller\Locatarios.class
+br\edu\ifrs\restinga\dev1\victor\prova1\Prova1Application.class
+br\edu\ifrs\restinga\dev1\victor\prova1\erro\NaoEncontradoException.class

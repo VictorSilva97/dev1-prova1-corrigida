@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/TestController.js"></script> 
+        <script>
+            function fechar() {
+                    base.innerHTML+="<hr/>";
+            }
+            window.nota={};
+            function verificar(teste, msg, grupo, nota) {
+                if(teste)
+                    base.innerHTML+="<div style='color:green'>Verificação executada com sucesso: "+msg+"</div>";
+                else 
+                    base.innerHTML+="<div style='color:red'>Verificação executada com erro: "+msg+"</div>";
+                    if(!window.nota[grupo])
+                        window.nota[grupo]=[];
+                    window.nota[grupo].push({
+                    acertou:teste,
+                    peso:nota,
+                    msg
+
+                }); 
+                return teste;
+            }
+
+            function exibir(resposta) {
+                base.innerHTML+="URL:"+resposta.url+"<br/>";
+                base.innerHTML+="metodo:"+resposta.metodo+"<br/>";
+                //base.innerHTML+="param:"+resposta.param+"<br/>";
+                base.innerHTML+="conteudo:"+JSON.stringify(resposta.conteudo)+"<br/>";
+                base.innerHTML+="Resposta:"+resposta.status+"<br/>";
+                base.innerHTML+=JSON.stringify(resposta.retorno)+"<br/>";
+            }
+
+            function exibirNota() {
+                let tabela="";
+                let notaFinal=0;
+                let pesoFinal=0;
+                for (const key in window.nota) {
+                    if (window.nota.hasOwnProperty(key)) {
+                        const notas = window.nota[key];
+                        
+                        let notaMaxima=0;
+                        let valorNota=0;
+                        let erros=[];
+                        let acertos=[];
+                        for (const nota of notas) {
+                            notaMaxima+=nota.peso;
+                            if(nota.acertou) {
+                                valorNota+=nota.peso;
+                                acertos.push(nota.msg);
+                            } else 
+                                erros.push(nota.msg);
+                        }
+                        notaFinal+=valorNota;
+                        pesoFinal+=notaMaxima;
+                        tabela+=`<tr><td>${key}</td>
+                            <td>${notaMaxima.toFixed(1)}</td>
+                            <td>${valorNota.toFixed(1)}</td>
+                            <td style="color:green">
+                                        ${acertos.map( val=>`<div>&#10140; ${val}</div>`).join("")}
+                                </td>
+                            <td style="color:red">
+                                    ${erros.map( val=>`<div>&#10140; ${val}</div>`).join("")}
+                                </td>
+                            </tr>`;
+                        
+                    }
+                }
+                document.getElementById("div").innerHTML=`<table border="1px">
+                    <tr><th>Item</th><th>Peso</th><th>Nota</th><th>Acertos</th><th>Erros</th></tr>
+                     ${tabela}
+                     <tr><td>Soma</td><td>${pesoFinal.toFixed(1)}</td><td>${notaFinal.toFixed(1)}</td></tr>
+                     <tr><td>Pesquisas</td><td>0~3.0</td><td>0~3.0</td></tr>
+                     <tr><td>Nota (provável)</td>
+                        <td>${pesoFinal.toFixed(1)}~${(pesoFinal+3).toFixed(1)}</td>
+                        <td>${notaFinal.toFixed(1)}~${(notaFinal+3).toFixed(1)}</td>
+                        </tr>
+                     </table>`;
+            }
+           
+        </script>
+        <script src="js/testeLocatario.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded",() => {
+                let base = document.getElementById("base");
+                teste(() => exibirNota());
+            });
+        </script>
+    </head>
+    <body>
+        <pre id="base"></pre>
+        <div id='div'></div> 
+    </body>
+</html>
