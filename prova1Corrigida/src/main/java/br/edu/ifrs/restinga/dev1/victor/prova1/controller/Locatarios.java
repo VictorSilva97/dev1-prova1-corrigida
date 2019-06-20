@@ -93,12 +93,18 @@ public class Locatarios {
         return locatario.getPagamento();
     }
     
-    @RequestMapping(path="/locatarios/{idLocatario}/pagamentos", method=RequestMethod.DELETE)
+    @RequestMapping(path="/locatarios/{idLocatario}/pagamentos/{idPagamento}", method=RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void apagarPagamento(@PathVariable int idLocatario){
+    public void apagarPagamento(@PathVariable int idLocatario, @PathVariable int idPagamento){
         Locatario locatario = recuperar(idLocatario);
         
-        locatario.getPagamento().removeAll(locatario.getPagamento());
+        Pagamento pagamento = null;
+        for(Pagamento pag : locatario.getPagamento()){
+            if(pag.getId() == idPagamento){
+                pagamento = pag;
+            }
+        }
+        locatario.getPagamento().remove(pagamento);
         locatarioDAO.save(locatario);                
     }
     
@@ -141,7 +147,7 @@ public class Locatarios {
     
     @RequestMapping(path="/locatarios/{idLocatario}/pagamentos", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public List<Pagamento> inserirPagamento(@PathVariable int idLocatario, @RequestBody Pagamento pagamento){
+    public Pagamento inserirPagamento(@PathVariable int idLocatario, @RequestBody Pagamento pagamento){
         Locatario locatario = recuperar(idLocatario);
         
         try{
@@ -149,7 +155,7 @@ public class Locatarios {
                 locatario.getPagamento().add(pagamentoDAO.save(pagamento));
                 locatarioDAO.save(locatario);
                 
-                return locatario.getPagamento();
+                return pagamento;
             }                
         }catch(Exception e){
             throw e;
