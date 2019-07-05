@@ -5,6 +5,7 @@
  */
 package br.edu.ifrs.restinga.dev1.victor.prova1.modelo.entidade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,6 +29,7 @@ public class Locatario {
     private String cpf;
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Pagamento> pagamento;
 
     @OneToOne
